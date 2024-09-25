@@ -1,7 +1,7 @@
-function create_svg_spline(points_and_tangents) {
+function path(points_and_tangents, dx = 0, dy = 0) {
     var svg = document.getElementById("svg");
     var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    points = points_and_tangents.map(function (x) { return x[1]; });
+    points = points_and_tangents.map(function (x) { return [x[1][0] + dx, x[1][1] + dy]; });
     first_tangents = points_and_tangents.map(function (x) { return x[2]; });
     second_tangents = points_and_tangents.map(function (x) { return x[0]; });
     second_tangents = second_tangents.slice(1);
@@ -31,16 +31,16 @@ function create_svg_spline(points_and_tangents) {
 }
 
 function left(a) {
-    return [-a,0];
+    return [-a, 0];
 }
 function right(a) {
-    return [a,0];
+    return [a, 0];
 }
 function up(a) {
-    return [0,-a];
+    return [0, -a];
 }
 function down(a) {
-    return [0,a];
+    return [0, a];
 }
 
 // Draw a simple line as svg into the div with id 'font'.
@@ -53,4 +53,14 @@ function draw_line(x1, y1, x2, y2) {
     line.setAttribute("y2", y2);
     line.setAttribute("stroke", "black");
     svg.appendChild(line);
+}
+
+function letter_a() {
+    path([
+        [[], [70, 10], left(40)],
+        [down(20), [20, 50], down(10)],
+        [right(20), [40, 70], right(20)],
+        [up(60), [70, 10], down(10)],
+        [down(10), [70, 70], []]
+    ], 0, 0);
 }
